@@ -22,8 +22,9 @@ class KotlinTypesSchemaTransformer : SchemaTransformer {
         buildContext: BuildContext
     ): GraphQLFieldDefinition {
         val kotlinFunction = (operation.typedElement.element as? Method)?.kotlinFunction
-        if (kotlinFunction?.returnType?.isMarkedNullable == false)
-            return field.transform { it.type(GraphQLNonNull(field.type)) }
+        if (kotlinFunction?.instanceParameter?.type?.jvmErasure?.java?.isKotlinClass() == true)
+            if (!kotlinFunction.returnType.isMarkedNullable)
+                return field.transform { it.type(GraphQLNonNull(field.type)) }
 
         return super.transformField(field, operation, operationMapper, buildContext)
     }
