@@ -25,11 +25,12 @@ class KotlinTypesSchemaTransformerTest {
 
         assert(mutationReturnType is GraphQLNonNull)
 
-        val mutationArgumentType = schema.mutationType
+        val mutationArgument = schema.mutationType
             .getFieldDefinition("createDummy")
-            .arguments[0].type
+            .arguments[0]
 
-        assert(mutationArgumentType is GraphQLNonNull)
+        assert(mutationArgument.type is GraphQLNonNull)
+        assert((mutationArgument.type as GraphQLNonNull).wrappedType.name == "String")
 
         val queryArgumentType = schema.queryType
             .getFieldDefinition("findDummy")
