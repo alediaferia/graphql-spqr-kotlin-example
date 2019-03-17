@@ -40,7 +40,7 @@ class KotlinTypesSchemaTransformer : SchemaTransformer {
             for (arg in kotlinFunction.parameters)
                 if (arg.name == operationArgument.name) {
                     if (!arg.type.isMarkedNullable)
-                        return argument.transform { builder -> builder.type(GraphQLNonNull.nonNull(argument)) }
+                        return argument.transform { builder -> builder.type(GraphQLNonNull.nonNull(argument.type)) }
                     break
                 }
         return super.transformArgument(argument, operationArgument, operationMapper, buildContext)
